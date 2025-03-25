@@ -5,6 +5,8 @@ from dash import Dash, html, dcc, Input, Output, State, callback, ctx
 import dash_bootstrap_components as dbc
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
+import os
+
 
 # Chargement des données préparées
 df_grouped = pd.read_csv("data_light.csv")
@@ -158,4 +160,6 @@ def update_explore(var):
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8050))
-    app.run_server(debug=False, host="0.0.0.0", port=port)
+    app.run_server(debug=False, host="0.0.0.0", port=port = int(os.environ.get("PORT", 8050))
+ 
+
