@@ -7,24 +7,18 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 
 # Chargement des données préparées
-url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv"
-df = pd.read_csv(url)
-df = df[~df['location'].str.startswith("OWID_")]
+df_grouped = pd.read_csv("data_light.csv")
 
-features = [
-    'location', 'continent', 'people_fully_vaccinated_per_hundred',
-    'median_age', 'life_expectancy', 'human_development_index',
-    'gdp_per_capita', 'cardiovasc_death_rate', 'iso_code', 'population'
-]
-df = df[features].dropna()
-df_grouped = df.groupby(['location', 'continent', 'iso_code'], as_index=False).mean(numeric_only=True)
+
 
 # Modèle de prédiction
 X = df_grouped[['median_age', 'life_expectancy', 'human_development_index', 'gdp_per_capita', 'cardiovasc_death_rate']]
 y = df_grouped['people_fully_vaccinated_per_hundred']
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=0.2)
 model = RandomForestRegressor(n_estimators=200, random_state=42)
 model.fit(X_train, y_train)
+
 df_grouped['prediction'] = model.predict(X)
 df_grouped['absolute_error'] = abs(df_grouped['prediction'] - df_grouped['people_fully_vaccinated_per_hundred'])
 
