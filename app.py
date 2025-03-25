@@ -40,10 +40,7 @@ app = Dash(
     external_stylesheets=[dbc.themes.BOOTSTRAP],
     show_undo_redo=False
 )
-# 🔐 Désactivation complète du mode développeur
-app.enable_dev_tools = False
-app.config.suppress_callback_exceptions = True
-os.environ["DASH_DEBUG"] = "False"
+
 
 app.title = "Vaccination Analytics Dashboard"
 
@@ -263,9 +260,14 @@ def update_explore(var):
 
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8050))
-    app.run(debug=False, host="0.0.0.0", port=port)
+    app.run(
+        host="0.0.0.0",
+        port=port,
+        debug=False,
+        use_reloader=False  # ← important pour Railway
+    )
 
  
 
