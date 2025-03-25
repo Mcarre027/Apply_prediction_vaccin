@@ -256,6 +256,8 @@ def update_explore(var):
     return fig
 
 
+import logging
+logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
 
 if __name__ == '__main__':
