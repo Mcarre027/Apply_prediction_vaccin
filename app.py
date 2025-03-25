@@ -40,6 +40,10 @@ app = Dash(
     external_stylesheets=[dbc.themes.BOOTSTRAP],
     show_undo_redo=False
 )
+# 🔐 Désactivation complète du mode développeur
+app.enable_dev_tools = False
+app.config.suppress_callback_exceptions = True
+os.environ["DASH_DEBUG"] = "False"
 
 app.title = "Vaccination Analytics Dashboard"
 
@@ -256,8 +260,7 @@ def update_explore(var):
     return fig
 
 
-import logging
-logging.getLogger('werkzeug').setLevel(logging.ERROR)
+
 
 
 if __name__ == '__main__':
