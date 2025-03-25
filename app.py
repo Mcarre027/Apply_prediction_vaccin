@@ -38,8 +38,7 @@ app = Dash(
     __name__,
     suppress_callback_exceptions=True,
     external_stylesheets=[dbc.themes.BOOTSTRAP],
-    show_undo_redo=False,
-    dev_tools_ui=False
+    show_undo_redo=False
 )
 
 app.title = "Vaccination Analytics Dashboard"
