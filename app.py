@@ -5,6 +5,9 @@ from dash import Dash, html, dcc, Input, Output, State, ctx, no_update
 import dash_bootstrap_components as dbc
 from sklearn.ensemble import RandomForestRegressor
 import os
+from sklearn.model_selection import train_test_split
+import os
+
 
 # Chargement des données préparées
 url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv"
@@ -225,3 +228,34 @@ def update_map(map_choice):
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8050))
     app.run(debug=True, host="0.0.0.0", port=port)
+
+@callback(Output("scatter_vaccination", "figure"), Input("continent_filter", "value"))
+def update_scatter(continent):
+    dff = df_grouped.copy()
+    if continent:
+        dff = dff[dff['continent'].isin(continent)]
+    fig = px.scatter(
+        dff, x="gdp_per_capita", y="people_fully_vaccinated_per_hundred",
+        color="continent", size="population", hover_name="location",
+        title="Lien entre PIB/hab. et couverture vaccinale"
+    )
+    return fig
+@callback(Output("exploration_plot", "figure"), Input("x_variable", "value"))
+def update_explore(var):
+    fig = px.scatter(
+        df_grouped, x=var, y="people_fully_vaccinated_per_hundred",
+        color="continent", hover_name="location", trendline="ols",
+        title=f"Relation entre {var} et couverture vaccinale"
+    )
+    return fig
+
+
+
+
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 8050))
+    app.run_server(debug=False, host="0.0.0.0", port=port)
+
+ 
+
+
