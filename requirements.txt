@@ -3,3 +3,4 @@ plotly
 pandas
 scikit-learn
 dash-bootstrap-components
+pip freeze > requirements.txt
