@@ -194,28 +194,7 @@ def handle_actions(predict_clicks, clear_clicks, export_clicks, median_age, life
 
     return no_update, no_update, no_update, no_update, no_update, no_update, no_update, None
 
-# Callback Dataviz
-@app.callback(Output("scatter_vaccination", "figure"), Input("continent_filter", "value"))
-def update_scatter(continent):
-    dff = df_grouped.copy()
-    if continent:
-        dff = dff[dff['continent'].isin(continent)]
-    fig = px.scatter(
-        dff, x="gdp_per_capita", y="people_fully_vaccinated_per_hundred",
-        color="continent", size="population", hover_name="location",
-        title="Lien entre PIB/hab. et couverture vaccinale"
-    )
-    return fig
 
-# Callback Exploration
-@app.callback(Output("exploration_plot", "figure"), Input("x_variable", "value"))
-def update_explore(var):
-    fig = px.scatter(
-        df_grouped, x=var, y="people_fully_vaccinated_per_hundred",
-        color="continent", hover_name="location", trendline="ols",
-        title=f"Relation entre {var} et couverture vaccinale"
-    )
-    return fig
 
 # Callback Carte du Monde
 @app.callback(Output('map_graph', 'figure'), Input('map_choice', 'value'))
