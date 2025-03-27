@@ -6,8 +6,6 @@ import dash_bootstrap_components as dbc
 from sklearn.ensemble import RandomForestRegressor
 import os
 from sklearn.model_selection import train_test_split
-import os
-
 
 # Chargement des données préparées
 url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv"
@@ -40,7 +38,6 @@ app = Dash(
     external_stylesheets=[dbc.themes.BOOTSTRAP],
     show_undo_redo=False
 )
-
 
 app.title = "Vaccination Analytics Dashboard"
 
@@ -194,7 +191,28 @@ def handle_actions(predict_clicks, clear_clicks, export_clicks, median_age, life
 
     return no_update, no_update, no_update, no_update, no_update, no_update, no_update, None
 
+# Callback Dataviz
+@app.callback(Output("scatter_vaccination", "figure"), Input("continent_filter", "value"))
+def update_scatter(continent):
+    dff = df_grouped.copy()
+    if continent:
+        dff = dff[dff['continent'].isin(continent)]
+    fig = px.scatter(
+        dff, x="gdp_per_capita", y="people_fully_vaccinated_per_hundred",
+        color="continent", size="population", hover_name="location",
+        title="Lien entre PIB/hab. et couverture vaccinale"
+    )
+    return fig
 
+# Callback Exploration
+@app.callback(Output("exploration_plot", "figure"), Input("x_variable", "value"))
+def update_explore(var):
+    fig = px.scatter(
+        df_grouped, x=var, y="people_fully_vaccinated_per_hundred",
+        color="continent", hover_name="location", trendline="ols",
+        title=f"Relation entre {var} et couverture vaccinale"
+    )
+    return fig
 
 # Callback Carte du Monde
 @app.callback(Output('map_graph', 'figure'), Input('map_choice', 'value'))
@@ -211,32 +229,6 @@ def update_map(map_choice):
     fig.update_layout(margin=dict(l=0, r=0, t=40, b=0))
     return fig
 
-
-
-@callback(Output("scatter_vaccination", "figure"), Input("continent_filter", "value"))
-def update_scatter(continent):
-    dff = df_grouped.copy()
-    if continent:
-        dff = dff[dff['continent'].isin(continent)]
-    fig = px.scatter(
-        dff, x="gdp_per_capita", y="people_fully_vaccinated_per_hundred",
-        color="continent", size="population", hover_name="location",
-        title="Lien entre PIB/hab. et couverture vaccinale"
-    )
-    return fig
-@callback(Output("exploration_plot", "figure"), Input("x_variable", "value"))
-def update_explore(var):
-    fig = px.scatter(
-        df_grouped, x=var, y="people_fully_vaccinated_per_hundred",
-        color="continent", hover_name="location", trendline="ols",
-        title=f"Relation entre {var} et couverture vaccinale"
-    )
-    return fig
-
-
-
-
-
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8050))
     app.run(
@@ -245,7 +237,5 @@ if __name__ == "__main__":
         debug=False,
         use_reloader=False  # ← important pour Railway
     )
-
- 
 
 
