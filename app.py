@@ -34,7 +34,12 @@ df_grouped['absolute_error'] = abs(df_grouped['prediction'] - y)
 saved_predictions = []
 
 # Initialisation Dash
-app = dash.Dash(__name__)
+app = Dash(
+    __name__,
+    suppress_callback_exceptions=True,
+    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    show_undo_redo=False
+)
 
 
 app.title = "Vaccination Analytics Dashboard"
@@ -227,9 +232,7 @@ def update_map(map_choice):
     fig.update_layout(margin=dict(l=0, r=0, t=40, b=0))
     return fig
 
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 8050))
-    app.run(debug=True, host="0.0.0.0", port=port)
+
 
 @callback(Output("scatter_vaccination", "figure"), Input("continent_filter", "value"))
 def update_scatter(continent):
