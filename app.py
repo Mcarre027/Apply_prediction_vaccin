@@ -34,12 +34,7 @@ df_grouped['absolute_error'] = abs(df_grouped['prediction'] - y)
 saved_predictions = []
 
 # Initialisation Dash
-app = Dash(
-    __name__,
-    suppress_callback_exceptions=True,
-    external_stylesheets=[dbc.themes.BOOTSTRAP],
-    show_undo_redo=False
-)
+app = dash.Dash(__name__)
 
 
 app.title = "Vaccination Analytics Dashboard"
