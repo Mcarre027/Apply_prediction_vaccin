@@ -63,7 +63,7 @@ app.layout = html.Div([
 accueil_layout = html.Div([
     html.H1("Bienvenue sur le Dashboard Vaccination COVID-19", className="text-center mt-4"),
     html.P("Ce tableau de bord interactif explore les facteurs socio-économiques expliquant la couverture vaccinale mondiale.", className="text-center"),
-    html.Img(src="/assets/globe-6002422_1280.jpg", style={"width": "60%", "display": "block", "margin": "auto"})
+    html.Img(src="assets\1.png", style={"width": "60%", "display": "block", "margin": "auto"})
 ])
 
 # Layout Machine Learning
