@@ -94,6 +94,6 @@ Données issues de [Our World in Data – COVID-19 Dataset](https://github.com/o
 ## 📬 Auteur
 
 Projet réalisé par **[Ton Nom]**, dans le cadre de ma formation de Data Analyst.  
-[LinkedIn](https://www.linkedin.com/in/matthieu-carre-19a3092b8/) • [Email](carrehomebusiness@gmail.com)
+[LinkedIn](https://www.linkedin.com/in/matthieu-carre-data/) • [Email](carrehomebusiness@gmail.com)
 
 ---
